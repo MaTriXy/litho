@@ -1,0 +1,62 @@
+---
+id: accessibility
+title: Accessibility
+---
+
+## Why Accessibility is important
+
+The fundamental purpose of an interface is to provide people with access to information: accessibility is the foundation of an interface. All people experience limitations in their abilities, whether it's temporary, situational or permanent. The aim of accessibility is to remove any obstacles that reduce the experience of using, understanding, and navigating your interface.
+
+This page provides details of the Litho components, methods, nodes, events, and headings available to ensure your interface provides the 'full experience' promoted by Meta.
+
+:::info
+For information on how Meta is committed to creating a full UI experience for **all** people, see the [Meta Accessibility](https://en-gb.facebook.com/accessibility/) site.
+:::
+
+## Implementing Accessibility features
+
+Accessibility properties and events for components can be implemented by adding them to the `Style` object.
+
+Following is an example of how to combine a `Style`, that was passed to a Primitive Component, with a newly created `Style` object that implements accessibility properties and events and will be returned on the `LithoPrimitive` object from the `render()` method:
+
+```kotlin file=sample/src/main/java/com/facebook/samples/litho/kotlin/primitives/SimpleImageViewWithAccessibilityPrimitiveComponent.kt start=start_simple_primitive_component_with_a11y_example end=end_simple_primitive_component_with_a11y_example
+```
+
+## Supported Accessibility properties and events
+
+The following list provides the supported properties of the `Style` object:
+
+* `Style.accessibilityHeading`
+* `Style.accessibilityRole`
+* `Style.accessibilityRoleDescription`
+* `Style.contentDescription`
+* `Style.importantForAccessibility`
+* `Style.screenReaderFocusable`
+* `Style.requestInitialAccessibilityFocus`
+* `Style.stateDescription`
+* `Style.minDurationBetweenContentChangesMillis`
+* `Style.labeledBy`
+* `Style.paneTitle`
+* `Style.liveRegion`
+* `Style.containerTitle`
+
+The following table provides the supported events of the `Style` object:
+
+| Event | AccessibilityDelegate method |
+| ----- | ---------------------------- |
+| `Style.onInitializeAccessibilityEvent`    | <a href="https://developer.android.com/reference/kotlin/androidx/core/view/AccessibilityDelegateCompat#onInitializeAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent)">onInitializeAccessibilityEvent</a> |
+| `Style.onInitializeAccessibilityNodeInfo` | <a href="https://developer.android.com/reference/kotlin/androidx/core/view/AccessibilityDelegateCompat#onInitializeAccessibilityNodeInfo(android.view.View,androidx.core.view.accessibility.AccessibilityNodeInfoCompat)">onInitializeAccessibilityNodeInfo</a> |
+| `Style.onPopulateAccessibilityNode`       | <a href="https://fburl.com/onpopulateaccessibilitynode">Populate an accessibility node with information about the component</a> |
+| `Style.onPopulateAccessibilityEvent`      | <a href="https://developer.android.com/reference/kotlin/androidx/core/view/AccessibilityDelegateCompat#onPopulateAccessibilityEvent(android.view.View,android.view.accessibility.AccessibilityEvent)">onPopulateAccessibilityEvent</a> |
+| `Style.onRequestSendAccessibilityEvent`   | <a href="https://developer.android.com/reference/kotlin/androidx/core/view/AccessibilityDelegateCompat#onRequestSendAccessibilityEvent(android.view.ViewGroup,android.view.View,android.view.accessibility.AccessibilityEvent)">onRequestSendAccessibilityEvent</a> |
+| `Style.performAccessibilityAction`        | <a href="https://developer.android.com/reference/kotlin/androidx/core/view/AccessibilityDelegateCompat#performAccessibilityAction(android.view.View,int,android.os.Bundle)">performAccessibilityAction</a> |
+| `Style.sendAccessibilityEvent`            | <a href="https://developer.android.com/reference/kotlin/androidx/core/view/AccessibilityDelegateCompat#sendAccessibilityEvent(android.view.View,int)">sendAccessibilityEvent</a> |
+| `Style.sendAccessibilityEventUnchecked`   | <a href="https://developer.android.com/reference/kotlin/androidx/core/view/AccessibilityDelegateCompat#sendAccessibilityEventUnchecked(android.view.View,android.view.accessibility.AccessibilityEvent)">sendAccessibilityEventUnchecked</a> |
+
+
+## Focus Order
+
+You can customize the default focus order behavior by creating focus order properties using `useFocusOrder()` hook and adding them to the `Style` object. This allows you to tailor the focus order to your specific needs, ensuring that interactive elements are navigable in a logical and predictable manner.
+
+```kotlin file=sample/src/main/java/com/facebook/samples/litho/kotlin/accessibility/FocusOrderComponent.kt start=start_focusorder_a11y_example end=end_focusorder_a11y_example
+```

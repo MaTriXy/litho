@@ -1,0 +1,73 @@
+---
+id: project-setup
+title: Setting up the Project
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import VersionedCodeBlock from '@theme/VersionedCodeBlock';
+
+After creating an Android app project in Android Studio, take the steps detailed in this page to configure it with the correct settings and dependencies.
+
+## 1. Add Litho core dependencies
+
+Add the following into the `dependencies` block of the `build.gradle` file:
+
+<VersionedCodeBlock language="groovy" code={`
+dependencies {
+  // Litho
+  implementation 'com.facebook.litho:litho-core:{{site.lithoVersion}}'
+  implementation 'com.facebook.litho:litho-widget:{{site.lithoVersion}}'
+  implementation 'com.facebook.litho:litho-widget-kotlin:{{site.lithoVersion}}'
+  kapt 'com.facebook.litho:litho-processor:{{site.lithoVersion}}'
+  // SoLoader
+  implementation 'com.facebook.soloader:soloader:{{site.soloaderVersion}}'
+  // Testing Litho
+  testImplementation 'com.facebook.litho:litho-testing:{{site.lithoVersion}}'
+}
+`} />
+
+## 2. Using the Annotation Processor (only for Spec API)
+
+:::info
+If you don't plan to create new Spec-based components and only will work with new Kotlin API, you don't need neither `kotlin-kapt` plugin nor `kapt 'com.facebook.litho:litho-processor:<version>'` dependency.
+:::
+
+The Annotation Processor is a part of the application build/compile process that generates code by reading annotations (such as `@Override` and `@SuppressWarnings`).
+The old Litho Spec API relies on annotation processing to generate real components implementations based on developer-written Specs.
+In order to enable Litho annotation processors in your project you need to apply the `kotlin-kapt` plugin at the top of your app's `build.gradle` file:
+
+```groovy
+apply plugin: 'kotlin-kapt'
+```
+
+## 3. Wire up native libs
+
+Litho has a dependency on [SoLoader](https://github.com/facebook/SoLoader) to help load native libraries provided by the underlying layout engine, [Yoga](https://yogalayout.dev/docs/about-yoga)[^1].
+
+[^1]: Yoga is a cross-platform (usable on Android, iOS, and other platforms) implementation of the Flexbox layout system used in web browsers. Litho uses Yoga to enable layouts (positioning of elements in the screen) to be specified via the Flexbox layouting system.
+
+Your custom `Application` class is a good place to initialize SoLoader:
+
+```kotlin title="MyApplication.kt"
+class MyApplication: Application() {
+
+  override fun onCreate() {
+    super.onCreate()
+    SoLoader.init(this, false)
+  }
+}
+```
+
+## Testing your setup
+
+You can test the above setup steps by adding the following simple UI, created with Litho, that displays "Hello, World!" text to an activity:
+
+```kotlin file=sample/src/main/java/com/facebook/samples/litho/onboarding/MyActivity.kt start=start_example end=end_example
+```
+
+If you build and run the app you should see "Hello, World!" displayed on the screen. Project setup is complete!
+
+## What next?
+
+The next section of the tutorial, [Components and Props](first-components.md), gives you a deeper understanding of what you've completed in this section.
